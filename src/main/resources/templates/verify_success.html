@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Successful</title>
+</head>
+<body style="background-color: white; color: #4a4a4a; font-family: Arial, sans-serif;">
+<div style="max-width: 600px; margin: 0 auto; padding: 24px; background-color: white; border: 1px solid #e2e2e2; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border-radius: 8px;">
+    <img src="https://nom.rra.gov.rw/onlineapp/dist/img/logo.png"
+         style="width: 176px; margin: 32px auto; display: block;" alt="RRA Logo">
+    <div style="text-align: center; margin-bottom: 24px;">
+        <h1 style="font-size: 24px; font-weight: bold; color: #5196CF;">Verification Successful</h1>
+    </div>
+    <div style="margin-bottom: 16px;">
+        <p style="font-size: 18px;">
+            Dear <span th:text="${name}">User</span>,
+        </p>
+        <p style="margin-top: 8px;">
+            We are pleased to inform you that your account verification was successful. You can now log in and start
+            using your account.
+        </p>
+    </div>
+    <div style="margin-top: 24px; text-align: center;">
+        <a href="http://localhost:9094/swagger-ui/index.html#/authentication-controller/login"
+           style="display: inline-block; padding: 12px 24px; color: white; background-color: #5196CF; border-radius: 9999px; text-decoration: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            Go to Login
+        </a>
+    </div>
+</div>
+<footer style="text-align: center; margin-top: 32px; color: #9e9e9e; font-size: 14px;">
+    &copy; <span th:text="${companyName}">Your Company</span> <span>2025</span>. All rights reserved.
+
+</footer>
+</body>
+</html>
