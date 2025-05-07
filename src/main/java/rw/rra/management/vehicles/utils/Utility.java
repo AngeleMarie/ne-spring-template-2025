@@ -1,12 +1,16 @@
 package rw.rra.management.vehicles.utils;
 
+import org.springframework.stereotype.Component;
 import rw.rra.management.vehicles.plates.PlateRepository;
 
-import java.util.Random;
-
+@Component
 public class Utility {
 
- private  PlateRepository plateRepository;
+    private final PlateRepository plateRepository;
+
+    public Utility(PlateRepository plateRepository) {
+        this.plateRepository = plateRepository;
+    }
 
     public String generateUniquePlateNumber() {
         String plate;
@@ -17,16 +21,14 @@ public class Utility {
     }
 
     private String randomLetter() {
-        return String.valueOf((char) ('A' + new Random().nextInt(26)));
+        return String.valueOf((char) ('A' + Math.random() * 26));
     }
 
-    private String randomDigits(int length) {
-        Random rand = new Random();
+    private String randomDigits(int count) {
         StringBuilder digits = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            digits.append(rand.nextInt(10));
+        for (int i = 0; i < count; i++) {
+            digits.append((int) (Math.random() * 10));
         }
         return digits.toString();
     }
-
 }

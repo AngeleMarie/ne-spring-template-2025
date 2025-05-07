@@ -12,8 +12,4 @@ public class AppConfig {
     public String someString() {
         return "YourFixedStringValue";
     }
-    @Bean
-    public Utility utility() {
-        return new Utility();
-    }
 }

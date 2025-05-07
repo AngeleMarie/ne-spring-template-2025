@@ -14,6 +14,7 @@ import rw.rra.management.vehicles.plates.PlateNumber;
 import rw.rra.management.vehicles.plates.PlateRepository;
 import rw.rra.management.vehicles.plates.PlateStatus;
 
+import java.time.LocalDate;
 import java.util.List;
 import rw.rra.management.vehicles.utils.Utility;
 
@@ -21,12 +22,13 @@ import rw.rra.management.vehicles.utils.Utility;
 @RequiredArgsConstructor
 public class OwnerService {
 
-    @Autowired
-    private Utility utility;
+    private final Utility utility;
     private final OwnerRepository ownerRepository;
     private final OwnerMapper ownerMapper;
     private final PlateRepository plateRepository;
     private final EmailService emailService;
+
+
 
     public OwnerResponseDto registerOwner(OwnerRequestDto dto) {
 
@@ -37,7 +39,9 @@ public class OwnerService {
         PlateNumber plate = new PlateNumber();
         plate.setPlateNumber(plateNumber);
         plate.setStatus(PlateStatus.IN_USE);
-        plate.setOwner(owner); // Assuming bidirectional mapping
+        plate.setOwner(owner);
+        plate.setIssuedDate(LocalDate.now());
+        System.out.println(plate);
         plateRepository.save(plate);
         emailService.sendUserRegisteredEmail(owner.getEmail(), owner.getFirstName(),plate.getPlateNumber());
 
@@ -52,11 +56,15 @@ public class OwnerService {
     }
 
 
-    public List<OwnerResponseDto> searchOwners(String keyword) {
-        return ownerRepository
-                .findByNationalIdContainingOrEmailContainingOrPhoneNumberContaining(keyword, keyword, keyword)
+    public List<OwnerResponseDto> searchOwners(String rawKeyword) {
+        String keyword = rawKeyword == null ? "" :
+                rawKeyword.replaceAll("[^a-zA-Z0-9]", "") // Remove special characters
+                        .trim();
+
+        return ownerRepository.searchByKeyword(keyword)
                 .stream()
                 .map(ownerMapper::toDto)
                 .toList();
     }
+
 }

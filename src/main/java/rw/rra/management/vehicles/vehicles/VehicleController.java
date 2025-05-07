@@ -11,6 +11,7 @@ import rw.rra.management.vehicles.vehicles.dtos.VehicleResponseDto;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/vehicles")
@@ -45,13 +46,14 @@ public class VehicleController {
     public ResponseEntity<VehicleResponseDto> getVehicleByPlate(@RequestParam String plateNumber) {
         return ResponseEntity.ok(vehicleService.getVehicleByPlateNumber(plateNumber));
     }
-    @PutMapping("/assign-plate-owner")
-    public VehicleResponseDto assignPlateAndOwner(@RequestBody AssignPlateAndOwnerRequest request) {
-        return vehicleService.assignPlateAndOwner(
-                request.vehicleId(),
-                request.plateNumber()
-        );
+    @PutMapping("/assign-plate-owner/{vehicleId}")
+    public VehicleResponseDto assignPlateAndOwner(
+            @PathVariable UUID vehicleId,
+            @RequestBody AssignPlateAndOwnerRequest request
+    ) {
+        return vehicleService.assignPlateAndOwner(vehicleId, request.plateNumber());
     }
+
 
 }
 
