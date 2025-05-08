@@ -1,8 +1,11 @@
 package rw.rra.management.vehicles.users;
 
+import io.vavr.collection.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import rw.rra.management.vehicles.auth.dtos.RegisterRequestDto;
 import rw.rra.management.vehicles.commons.exceptions.BadRequestException;
 import rw.rra.management.vehicles.users.dtos.UserResponseDto;
@@ -11,8 +14,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import rw.rra.management.vehicles.vehicles.Vehicle;
+import rw.rra.management.vehicles.vehicles.VehicleRepository;
 
 import java.util.UUID;
+
+import static io.vavr.collection.List.empty;
+import static java.util.Collections.emptyList;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +29,7 @@ public class UserService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final VehicleRepository vehicleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${admin.email:amrieangele@gmail.com}")
@@ -86,4 +95,21 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new BadRequestException("User with that email not found."));
     }
+    public User getAuthenticatedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
+            throw new BadRequestException("User is not authenticated.");
+        }
+
+        String email = auth.getName();
+        return findByEmail(email);
+    }
+
+
+    public UserResponseDto getCurrentLoggedInUser() {
+        return userMapper.toResponseDto(getAuthenticatedUser());
+    }
+
+
 }

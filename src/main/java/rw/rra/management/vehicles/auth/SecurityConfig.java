@@ -65,23 +65,27 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .sessionManagement(
-                        c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry ->
                         registry
                                 .requestMatchers(AUTH_WHITELIST).permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/v1/auth/refresh").permitAll()
-                                .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+
+                                .requestMatchers("/api/v1/vehicles/**").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/owners/**").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/transfers/**").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/plates/**").hasRole("ADMIN")
+
                                 .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling( c -> {
+                .exceptionHandling(c -> {
                     c.authenticationEntryPoint(securityExceptionHandler);
                     c.accessDeniedHandler(securityExceptionHandler);
                 });
 
         return http.build();
     }
+
 }

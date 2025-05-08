@@ -33,7 +33,7 @@ public class AuthService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public LoginResponse login(LoginRequestDto loginRequest, HttpServletResponse response){
+    public LoginResponse login(LoginRequestDto loginRequest, HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.email(),
@@ -61,14 +61,5 @@ public class AuthService {
         return new LoginResponse(
                 accessToken.toString()
         );
-    }
-
-    public String refreshAccessToken(String refreshToken){
-        var jwt = jwtService.parseToken(refreshToken);
-        if (jwt == null || jwt.isExpired()) {
-            throw new BadCredentialsException("Refresh token is missing.");
-        }
-        var user = userRepository.findById(jwt.getUserId()).orElseThrow();
-        return jwtService.generateAccessToken(user).toString();
     }
 }

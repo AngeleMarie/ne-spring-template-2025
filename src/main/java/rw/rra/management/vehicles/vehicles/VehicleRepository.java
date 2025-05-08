@@ -1,5 +1,6 @@
 package rw.rra.management.vehicles.vehicles;
 
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

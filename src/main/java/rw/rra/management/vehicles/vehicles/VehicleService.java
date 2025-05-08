@@ -48,6 +48,12 @@ public class VehicleService {
                 .orElseThrow(() -> new RuntimeException("Vehicle not found"));
     }
 
+    public VehicleResponseDto getVehicleByChassisNumber(String chassisNumber) {
+        return vehicleRepository.findByChassisNumber(chassisNumber)
+                .map(vehicleMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("Vehicle not found"));
+    }
+
     public Page<VehicleResponseDto> getVehiclesByOwnerNationalId(String nationalId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return vehicleRepository.findByOwnerNationalId(nationalId, pageable)

@@ -6,6 +6,8 @@ import lombok.*;
 import rw.rra.management.vehicles.ownership.OwnershipTransfer;
 import rw.rra.management.vehicles.plates.PlateNumber;
 import rw.rra.management.vehicles.owners.Owner;
+
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.List;
 import java.util.UUID;
@@ -46,14 +48,18 @@ public class Vehicle {
     private String modelName;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "plate_number_id", unique = true)
     private PlateNumber plateNumber;
+
+    @Column(name = "last_inspection_time")
+    private LocalDateTime lastInspectionTime=LocalDateTime.now();
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)

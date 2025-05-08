@@ -42,6 +42,12 @@ public class VehicleController {
     }
 
 
+    @GetMapping("/by-chassis")
+    public ResponseEntity<VehicleResponseDto> getVehicleByChassisNumber(@RequestParam String chassisNumber) {
+        return ResponseEntity.ok(vehicleService.getVehicleByChassisNumber(chassisNumber));
+    }
+
+
     @GetMapping("/by-plate")
     public ResponseEntity<VehicleResponseDto> getVehicleByPlate(@RequestParam String plateNumber) {
         return ResponseEntity.ok(vehicleService.getVehicleByPlateNumber(plateNumber));

@@ -38,12 +38,13 @@ public class OwnerService {
         String plateNumber = utility.generateUniquePlateNumber();
         PlateNumber plate = new PlateNumber();
         plate.setPlateNumber(plateNumber);
-        plate.setStatus(PlateStatus.IN_USE);
+        plate.setStatus(PlateStatus.AVAILABLE);
         plate.setOwner(owner);
         plate.setIssuedDate(LocalDate.now());
         System.out.println(plate);
         plateRepository.save(plate);
-        emailService.sendUserRegisteredEmail(owner.getEmail(), owner.getFirstName(),plate.getPlateNumber());
+        emailService.sendUserRegisteredEmail(owner.getEmail(), owner.getFirstName(),plateNumber);
+        System.out.println(plateNumber);
 
         return ownerMapper.toDto(owner);
     }

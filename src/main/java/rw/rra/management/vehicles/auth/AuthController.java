@@ -13,6 +13,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import rw.rra.management.vehicles.vehicles.dtos.VehicleResponseDto;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -23,6 +28,7 @@ public class AuthController {
     private final UserService userService;
     private final OtpService otpService;
     private final EmailService emailService;
+
 
 
     @PostMapping("/register")
@@ -65,6 +71,11 @@ public class AuthController {
         return ResponseEntity.ok("If your email is registered, you will receive an email with instructions to reset your password.");
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<UserResponseDto> getLoggedInUser() {
+        return ResponseEntity.ok(userService.getCurrentLoggedInUser());
+    }
+
 
     @PatchMapping("/reset-password")
     @RateLimiter(name = "auth-rate-limiter")
@@ -89,12 +100,13 @@ public class AuthController {
     }
 
 
-
     @PostMapping("/login")
     @RateLimiter(name = "auth-rate-limiter")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         var loginResult = authService.login(loginRequestDto, response);
         return ResponseEntity.ok(new LoginResponse(loginResult.accessToken()));
     }
+
+
 
 }

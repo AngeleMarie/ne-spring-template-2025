@@ -75,6 +75,17 @@ public class EmailService {
     }
 
     @Async
+    public void sendPostInspectionNotification(String to, String name, String plateNumber) {
+        Context context = new Context();
+        context.setVariable("name", name);
+        context.setVariable("plateNumber", plateNumber);
+        context.setVariable("companyName", "Rwanda Revenue Authority");
+
+        sendEmail("post_inspection_notification", context, to, "Vehicle Inspection Update");
+    }
+
+
+    @Async
     public void sendOwnershipTransferEmailToReceiver(String to, String name, String plateNumber, Double amount, String previousOwnerFirstName, String previousOwnerLastName) {
         Context context = new Context();
         context.setVariable("name", name);
@@ -143,6 +154,7 @@ public class EmailService {
     private void sendGenericEmail(String to, String name, String plateNumber,String template, String subject) {
         Context context = new Context();
         context.setVariable("name", name);
+        context.setVariable("plateNumber", plateNumber);
         context.setVariable("companyName", "Rwanda Revenue Authority");
         sendEmail(template, context, to, subject);
     }

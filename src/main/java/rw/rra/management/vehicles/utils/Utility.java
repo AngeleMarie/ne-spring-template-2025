@@ -17,12 +17,17 @@ public class Utility {
         do {
             plate = "RA" + randomLetter() + randomDigits(3) + randomLetter();
         } while (plateRepository.findByPlateNumber(plate).isPresent());
+        System.out.println("Generated unique plate number: " + plate); // Add this line
         return plate;
     }
 
+
     private String randomLetter() {
-        return String.valueOf((char) ('A' + Math.random() * 26));
+        char[] letters = {'A', 'B', 'C', 'D', 'E', 'F'};
+        int index = (int) (Math.random() * letters.length);
+        return String.valueOf(letters[index]);
     }
+
 
     private String randomDigits(int count) {
         StringBuilder digits = new StringBuilder();
