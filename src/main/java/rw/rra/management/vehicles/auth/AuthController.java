@@ -71,10 +71,6 @@ public class AuthController {
         return ResponseEntity.ok("If your email is registered, you will receive an email with instructions to reset your password.");
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<UserResponseDto> getLoggedInUser() {
-        return ResponseEntity.ok(userService.getCurrentLoggedInUser());
-    }
 
 
     @PatchMapping("/reset-password")

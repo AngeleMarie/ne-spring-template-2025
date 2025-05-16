@@ -1,5 +1,6 @@
 package rw.rra.management.vehicles.vehicles;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,7 +48,7 @@ public class Vehicle {
     @Column(name = "model_name", nullable = false, length = 100)
     private String modelName;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Owner owner;
@@ -58,7 +59,7 @@ public class Vehicle {
     private PlateNumber plateNumber;
 
     @Column(name = "last_inspection_time")
-    private LocalDateTime lastInspectionTime=LocalDateTime.now();
+    private LocalDateTime lastInspectionTime;
 
 
     @JsonIgnore

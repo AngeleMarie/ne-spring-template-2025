@@ -19,7 +19,7 @@ public class VehicleInspectionJob {
     private final VehicleRepository vehicleRepository;
     private final EmailService emailService;
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void checkVehicleInspectionStatus() {
         log.info("VehicleInspectionJob: Cron job started at {}", LocalDateTime.now());
         try {

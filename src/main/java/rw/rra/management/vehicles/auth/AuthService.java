@@ -25,14 +25,6 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
-    public User getCurrentUser(){
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        var userId = (UUID) authentication.getPrincipal();
-
-        return userRepository.findById(userId).orElse(null);
-    }
-
     public LoginResponse login(LoginRequestDto loginRequest, HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

@@ -11,16 +11,13 @@ import rw.rra.management.vehicles.commons.exceptions.BadRequestException;
 import rw.rra.management.vehicles.users.dtos.UserResponseDto;
 import rw.rra.management.vehicles.users.mappers.UserMapper;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import rw.rra.management.vehicles.vehicles.Vehicle;
+
 import rw.rra.management.vehicles.vehicles.VehicleRepository;
 
+import java.util.Collection;
 import java.util.UUID;
-
-import static io.vavr.collection.List.empty;
-import static java.util.Collections.emptyList;
 
 @Service
 @AllArgsConstructor
@@ -95,6 +92,7 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new BadRequestException("User with that email not found."));
     }
+
     public User getAuthenticatedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -102,14 +100,15 @@ public class UserService {
             throw new BadRequestException("User is not authenticated.");
         }
 
-        String email = auth.getName();
-        return findByEmail(email);
+        String userId = auth.getName(); // This is the user ID
+        return userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new BadRequestException("User with that ID not found."));
     }
-
 
     public UserResponseDto getCurrentLoggedInUser() {
         return userMapper.toResponseDto(getAuthenticatedUser());
     }
+
 
 
 }

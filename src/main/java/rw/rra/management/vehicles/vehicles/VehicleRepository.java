@@ -17,6 +17,8 @@ public interface VehicleRepository extends JpaRepository<Vehicle, UUID> {
 
     Optional<Vehicle> findByChassisNumber(String chassisNumber);
 
+    List<Vehicle> findAllByOwnerEmail(String email);
+
     @Query("SELECT v FROM Vehicle v WHERE v.plateNumber.plateNumber = :plateNumber")
     Optional<Vehicle> findByPlateNumber(String plateNumber);
 

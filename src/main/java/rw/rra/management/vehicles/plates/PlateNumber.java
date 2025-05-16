@@ -14,7 +14,8 @@ import java.util.UUID;
 @Table(name = "plate_numbers", uniqueConstraints = {
         @UniqueConstraint(columnNames = "plate_number")
 })
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlateNumber {

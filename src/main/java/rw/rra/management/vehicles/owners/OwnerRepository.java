@@ -19,6 +19,7 @@ public interface OwnerRepository extends JpaRepository<Owner, UUID> {
             "REPLACE(o.phoneNumber, ' ', '') LIKE CONCAT('%', :keyword, '%') OR " +
             "REPLACE(o.nationalId, ' ', '') LIKE CONCAT('%', :keyword, '%')")
     List<Owner> searchByKeyword(String keyword);
-
+    @Query("SELECT o FROM Owner o LEFT JOIN FETCH o.vehicles LEFT JOIN FETCH o.plateNumbers WHERE o.email = :email")
+    Optional<Owner> findByEmailWithVehiclesAndPlates(String email);
 
 }

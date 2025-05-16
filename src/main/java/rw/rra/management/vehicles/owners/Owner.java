@@ -1,60 +1,69 @@
-package rw.rra.management.vehicles.owners;
+    package rw.rra.management.vehicles.owners;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-import rw.rra.management.vehicles.ownership.OwnershipTransfer;
-import rw.rra.management.vehicles.plates.PlateNumber;
-import rw.rra.management.vehicles.users.User;
-import rw.rra.management.vehicles.vehicles.Vehicle;
+    import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+    import com.fasterxml.jackson.annotation.JsonManagedReference;
+    import jakarta.persistence.*;
+    import lombok.*;
+    import lombok.experimental.SuperBuilder;
+    import rw.rra.management.vehicles.audits.InitiatorAudit;
+    import rw.rra.management.vehicles.ownership.OwnershipTransfer;
+    import rw.rra.management.vehicles.plates.PlateNumber;
+    import rw.rra.management.vehicles.users.User;
+    import rw.rra.management.vehicles.vehicles.Vehicle;
 
-import java.util.List;
-import java.util.UUID;
+    import java.util.HashSet;
+    import java.util.List;
+    import java.util.Set;
+    import java.util.UUID;
 
-@Entity
-@Table(name = "owners")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+    @Entity
+    @Table(name = "owners")
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
 
-public class Owner {
+    @JsonIgnoreProperties(value = {"createdAt", "updatedAt", "createdBy", "updatedBy"}, allowGetters = true)
+    public class Owner extends InitiatorAudit {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-    @Column(nullable = false)
-    private String firstName;
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private UUID id;
+        @Column(nullable = false)
+        private String firstName;
 
-    @Column(nullable = false)
-    private String lastName;
+        @Column(nullable = false)
+        private String lastName;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+        @Column(nullable = false, unique = true)
+        private String email;
 
-    @Column(nullable = false, unique = true, length = 10)
-    private String phoneNumber;
+        @Column(nullable = false, unique = true, length = 10)
+        private String phoneNumber;
 
-    @Column(nullable = false, unique = true, length = 16)
-    private String nationalId;
+        @Column(nullable = false, unique = true, length = 16)
+        private String nationalId;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PlateNumber> plateNumbers;
+        @JsonManagedReference
+        @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+        private Set<Vehicle> vehicles = new HashSet<>();
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Vehicle> vehicles;
+        @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+        private Set<PlateNumber> plateNumbers = new HashSet<>();
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "district", column = @Column(name = "owner_district")),
-            @AttributeOverride(name = "province", column = @Column(name = "owner_province")),
-            @AttributeOverride(name = "street", column = @Column(name = "owner_street"))
-    })
-    private Address address;
 
-    @OneToMany(mappedBy = "fromOwner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OwnershipTransfer> transfersFrom;
+        @Embedded
+        @AttributeOverrides({
+                @AttributeOverride(name = "district", column = @Column(name = "owner_district")),
+                @AttributeOverride(name = "province", column = @Column(name = "owner_province")),
+                @AttributeOverride(name = "street", column = @Column(name = "owner_street"))
+        })
+        private Address address;
 
-    @OneToMany(mappedBy = "toOwner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OwnershipTransfer> transfersTo;
+        @OneToMany(mappedBy = "fromOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<OwnershipTransfer> transfersFrom;
 
-}
+        @OneToMany(mappedBy = "toOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<OwnershipTransfer> transfersTo;
+
+    }

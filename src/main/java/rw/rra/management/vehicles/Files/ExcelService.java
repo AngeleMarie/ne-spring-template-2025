@@ -13,16 +13,15 @@ public class ExcelService {
 
     public byte[] generateExcelTransactions(List<String> headers, List<List<String>> data) throws IOException {
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Transactions");
+        Sheet sheet = workbook.createSheet("Transfers");
 
-        // Create header row
         Row headerRow = sheet.createRow(0);
         for (int i = 0; i < headers.size(); i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers.get(i));
         }
 
-        // Create data rows
+
         for (int i = 0; i < data.size(); i++) {
             Row row = sheet.createRow(i + 1);
             List<String> rowData = data.get(i);
@@ -32,7 +31,7 @@ public class ExcelService {
             }
         }
 
-        // Auto-size columns to fit the content
+
         for (int i = 0; i < headers.size(); i++) {
             sheet.autoSizeColumn(i);
         }

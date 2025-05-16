@@ -97,7 +97,9 @@ public class VehicleService {
         return vehicleMapper.toDto(updatedVehicle);
     }
 
-
+    public List<Vehicle> getAllVehiclesForReport() {
+        return vehicleRepository.findAll();
+    }
 
 
 }

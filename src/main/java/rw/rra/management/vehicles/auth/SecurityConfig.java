@@ -70,10 +70,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry ->
                         registry
                                 .requestMatchers(AUTH_WHITELIST).permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+                                .requestMatchers("/api/v1/users").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
 
                                 .requestMatchers("/api/v1/vehicles/**").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/files/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/owners/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/transfers/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/plates/**").hasRole("ADMIN")

@@ -8,6 +8,8 @@ import rw.rra.management.vehicles.vehicles.Vehicle;
 import rw.rra.management.vehicles.vehicles.dtos.VehicleRequestDto;
 import rw.rra.management.vehicles.vehicles.dtos.VehicleResponseDto;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface VehicleMapper {
 
@@ -23,7 +25,7 @@ public interface VehicleMapper {
 
     })
     Vehicle toEntity(VehicleRequestDto dto);
-
+    List<VehicleResponseDto> toDtoList(List<Vehicle> vehicles);
     @Mappings({
             @Mapping(source = "brand", target = "brand"),
             @Mapping(source = "color", target = "color"),

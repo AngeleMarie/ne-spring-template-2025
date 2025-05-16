@@ -6,6 +6,8 @@ import rw.rra.management.vehicles.plates.PlateNumber;
 import rw.rra.management.vehicles.plates.dtos.PlateNumberResponseDto;
 import rw.rra.management.vehicles.plates.dtos.RegisterPlateNumberDto;
 import rw.rra.management.vehicles.owners.Owner;
+import rw.rra.management.vehicles.vehicles.Vehicle;
+import rw.rra.management.vehicles.vehicles.dtos.VehicleResponseDto;
 
 import java.util.List;
 
