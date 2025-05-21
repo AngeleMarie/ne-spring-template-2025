@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import rw.rra.management.vehicles.users.UserService;
 
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
+
 @SpringBootApplication
 @EnableScheduling
 public class VehiclesApplication implements CommandLineRunner {

@@ -4,11 +4,8 @@
     import com.fasterxml.jackson.annotation.JsonManagedReference;
     import jakarta.persistence.*;
     import lombok.*;
-    import lombok.experimental.SuperBuilder;
-    import rw.rra.management.vehicles.audits.InitiatorAudit;
     import rw.rra.management.vehicles.ownership.OwnershipTransfer;
     import rw.rra.management.vehicles.plates.PlateNumber;
-    import rw.rra.management.vehicles.users.User;
     import rw.rra.management.vehicles.vehicles.Vehicle;
 
     import java.util.HashSet;
@@ -24,7 +21,7 @@
     @AllArgsConstructor
 
     @JsonIgnoreProperties(value = {"createdAt", "updatedAt", "createdBy", "updatedBy"}, allowGetters = true)
-    public class Owner extends InitiatorAudit {
+    public class Owner  {
 
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
